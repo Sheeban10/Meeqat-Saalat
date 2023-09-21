@@ -6,13 +6,537 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/locationTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlCity"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="35dp"
+        android:hint="@string/city"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:text=""
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlCountry"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="35dp"
+        android:hint="@string/country"
+        app:layout_constraintStart_toEndOf="@+id/tlCity"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etCountry"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:singleLine="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@+id/tlCity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/location"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tlCountry"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="90dp"
+        android:background="@drawable/spinner_outline"
+        android:dropDownWidth="100dp"
+        android:dropDownVerticalOffset="48dp"
+        android:popupBackground="@color/cyan"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/selectDate"
+        app:layout_constraintTop_toBottomOf="@+id/location" />
+
+    <TextView
+        android:id="@+id/selectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="95dp"
+        android:layout_marginStart="15dp"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/select_date_default"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btnCalender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/selectDate"
+        android:text="dd/mm/yyyy"
+        android:textStyle="bold|italic"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/box"
+        android:padding="4dp"/>
+
+    <Button
+        android:id="@+id/btnGetTimings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/cyan"
+        android:text="@string/get_timings"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCalender" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintTimings"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCalender"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <LinearLayout
+            android:id="@+id/llFajr"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fajr"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+
+            <TextView
+                android:id="@+id/tvFajr"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSunrise"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llFajr"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sunrise"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+
+            <TextView
+                android:id="@+id/tvSunrise"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDuhr"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llSunrise"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/dhuhr"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+
+            <TextView
+                android:id="@+id/tvDhuhr"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAsr"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llDuhr"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/asr"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+
+            <TextView
+                android:id="@+id/tvAsr"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSunset"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llAsr"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sunset"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvSunset"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMaghrib"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llSunset"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/maghrib"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvMaghrib"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llIsha"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llMaghrib"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/isha"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvIsha"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMidnight"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llIsha"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/midnight"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvMidnight"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFirstThird"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llMidnight"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/firstthird"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvFirstthird"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llLastthird"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llFirstThird"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/lastThird"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvLastthird"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llHijri"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llLastthird"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="0.5"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:text="@string/hijri"
+                android:gravity="center_vertical"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvHijri"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Date Islamic"
+                android:layout_marginStart="10dp"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="34sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMonth"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toBottomOf="@id/llHijri"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_weight="0.5"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:text="@string/islamic_month"
+                android:gravity="center_vertical"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:padding="1dp"/>
+            <TextView
+                android:id="@+id/tvMonth"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Month Name"
+                android:layout_marginStart="10dp"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:textSize="34sp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Meeqat-Salaat</string>
+    <string name="select_date_default">Set Date/Set by default</string>
+    <string name="location">Enter Location/ click the icon</string>
+    <string name="city">Enter City Name</string>
+    <string name="country">Enter Country</string>
+    <string name="fajr">Fajr</string>
+    <string name="get_timings">Get Timings</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="sunset">Sunset</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
+    <string name="midnight">Midnight</string>
+    <string name="firstthird">FirstThird</string>
+    <string name="lastThird">LastThird</string>
+    <string name="hijri">Hijri</string>
+    <string name="locationTv">Enter Location / Click on the icon to fetch automatically</string>
+    <string name="islamic_month">Month</string>
 </resources>

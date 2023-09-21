@@ -22,7 +22,9 @@ class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
         val lottie = findViewById<LottieAnimationView>(R.id.lottieSS)
@@ -69,8 +71,11 @@ class SplashScreen : AppCompatActivity() {
     fun startMainActivity(){
 
         Handler().postDelayed({
+            val locationData = "City, Country"
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("locationData", locationData)
             startActivity(intent)
+            finish()
         },3000)
 
     }
