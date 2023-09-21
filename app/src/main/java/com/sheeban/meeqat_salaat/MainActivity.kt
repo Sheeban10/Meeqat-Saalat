@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var firstthird : TextView
     lateinit var lastthird : TextView
     lateinit var hijri : TextView
+    lateinit var month : TextView
+    lateinit var monthAr : TextView
 
     lateinit var consTimings : ConstraintLayout
 
@@ -79,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         firstthird = binding.tvFirstthird
         lastthird = binding.tvLastthird
         hijri = binding.tvHijri
+        month = binding.tvMonth
+        monthAr = binding.tvMonthArabic
 
         consTimings = binding.constraintTimings
 
@@ -131,6 +135,8 @@ class MainActivity : AppCompatActivity() {
                 firstthird.text = timingsObject.getString("Firstthird")
                 lastthird.text = timingsObject.getString("Lastthird")
                 hijri.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getString("date")
+                month.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("en")
+                monthAr.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("ar")
                 consTimings.visibility = View.VISIBLE
             },
             { error ->
