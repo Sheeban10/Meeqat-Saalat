@@ -27,6 +27,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -86,6 +87,8 @@ class MainActivity : AppCompatActivity() {
 
         consTimings = binding.constraintTimings
 
+        defaultLocationShow()
+
         btnLocation = binding.location
         btnLocation.setOnClickListener {
             location()
@@ -100,6 +103,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.btnGetTimings.setOnClickListener {
+            binding.lottieLoading.visibility = View.VISIBLE
             val selectedDate = binding.btnCalender.text.toString()
             val city = cityName.text.toString()
             val country = countryName.text.toString()
@@ -114,6 +118,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun defaultLocationShow() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED){
+            location()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
     }
 
     private fun fetchPrayerTimings(apiUrl: String) {
@@ -137,7 +150,10 @@ class MainActivity : AppCompatActivity() {
                 hijri.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getString("date")
                 month.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("en")
                 monthAr.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("ar")
+                binding.lottieLoading.visibility = View.GONE
                 consTimings.visibility = View.VISIBLE
+
+                Toast.makeText(this, "Here are your timings for ${cityName.text}", Toast.LENGTH_LONG).show()
             },
             { error ->
                 // Handle any errors that occurred during the request
@@ -148,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         queue.add(request)
     }
 
-    fun spinner(){
+    private fun spinner(){
 
         val spinner = binding.spinner
         val items = arrayOf(
@@ -165,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun defaultDate(){
+    private fun defaultDate(){
         val btnCalender = binding.btnCalender
 
         // Set the default text to the current date
@@ -176,7 +192,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setDate() {
+    private fun setDate() {
 
         val currentDate = Calendar.getInstance()
         val dateFormat = "dd-MM-yyyy"
@@ -202,7 +218,7 @@ class MainActivity : AppCompatActivity() {
         datePicker.show()
     }
 
-    fun location() {
+    private fun location() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (ContextCompat.checkSelfPermission(
@@ -244,6 +260,10 @@ class MainActivity : AppCompatActivity() {
             Log.e("LocationData", "Location permissions are not granted")
             Toast.makeText(this, "Enable Location Permission", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
 }
