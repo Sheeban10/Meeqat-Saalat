@@ -24,10 +24,13 @@ import java.util.Calendar
 import java.util.Locale
 import android.Manifest
 import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.airbnb.lottie.LottieAnimationView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var monthAr : TextView
 
     lateinit var consTimings : ConstraintLayout
+    lateinit var lottieLL : LinearLayout
 
     private val API_BASE_URL = "https://api.aladhan.com/v1/timingsByCity/"
 
@@ -86,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         monthAr = binding.tvMonthArabic
 
         consTimings = binding.constraintTimings
+        lottieLL = binding.llLottie
 
         defaultLocationShow()
 
@@ -98,12 +103,17 @@ class MainActivity : AppCompatActivity() {
             setDate()
         }
 
+
         consTimings.visibility = View.GONE
+        lottieLL.visibility = View.GONE
+        val loading = findViewById<LottieAnimationView>(R.id.lottieLoading)
 
 
 
         binding.btnGetTimings.setOnClickListener {
-            binding.lottieLoading.visibility = View.VISIBLE
+            consTimings.visibility = View.GONE
+            lottieLL.visibility = View.VISIBLE
+            loading.visibility = View.VISIBLE
             val selectedDate = binding.btnCalender.text.toString()
             val city = cityName.text.toString()
             val country = countryName.text.toString()
@@ -150,8 +160,9 @@ class MainActivity : AppCompatActivity() {
                 hijri.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getString("date")
                 month.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("en")
                 monthAr.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("ar")
-                binding.lottieLoading.visibility = View.GONE
                 consTimings.visibility = View.VISIBLE
+                lottieLL.visibility = View.GONE
+                binding.lottieLoading.visibility = View.GONE
 
                 Toast.makeText(this, "Here are your timings for ${cityName.text}", Toast.LENGTH_LONG).show()
             },
@@ -221,44 +232,52 @@ class MainActivity : AppCompatActivity() {
     private fun location() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location ->
-                    if (location != null) {
-                        // Handle the location data here
-                        val geocoder = Geocoder(this, Locale.getDefault())
-                        val addresses = geocoder.getFromLocation(
-                            location.latitude,
-                            location.longitude,
-                            1
-                        )
-                        if (addresses != null && addresses.isNotEmpty()) {
-                            val city = addresses[0].locality
-                            val country = addresses[0].countryName
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetworkInfo
 
-                            // Log the retrieved location data for debugging
-                            Log.d("LocationData", "City: $city, Country: $country")
+        if (network != null && network.isConnected) {
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location ->
+                        if (location != null) {
+                            // Handle the location data here
+                            val geocoder = Geocoder(this, Locale.getDefault())
+                            val addresses = geocoder.getFromLocation(
+                                location.latitude,
+                                location.longitude,
+                                1
+                            )
+                            if (addresses != null && addresses.isNotEmpty()) {
+                                val city = addresses[0].locality
+                                val country = addresses[0].countryName
 
-                            // Update your EditText widgets with the location data
-                            cityName.setText(city)
-                            countryName.setText(country)
+                                // Log the retrieved location data for debugging
+                                Log.d("LocationData", "City: $city, Country: $country")
+
+                                // Update your EditText widgets with the location data
+                                cityName.setText(city)
+                                countryName.setText(country)
+                            } else {
+                                // Handle the case where geocoder data is not available
+                                Log.e("LocationData", "Geocoder data is not available")
+                            }
                         } else {
-                            // Handle the case where geocoder data is not available
-                            Log.e("LocationData", "Geocoder data is not available")
+                            // Handle the case where location is not available
+                            Log.e("LocationData", "Location is not available")
+                            Toast.makeText(this, "Location is not available", Toast.LENGTH_SHORT)
+                                .show()
                         }
-                    } else {
-                        // Handle the case where location is not available
-                        Log.e("LocationData", "Location is not available")
-                        Toast.makeText(this, "Location is not available", Toast.LENGTH_SHORT).show()
                     }
-                }
+            } else {
+                // Handle the case where location permissions are not granted
+                Log.e("LocationData", "Location permissions are not granted")
+                Toast.makeText(this, "Enable Location Permission", Toast.LENGTH_SHORT).show()
+            }
         } else {
-            // Handle the case where location permissions are not granted
-            Log.e("LocationData", "Location permissions are not granted")
-            Toast.makeText(this, "Enable Location Permission", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Internet Not available", Toast.LENGTH_SHORT).show()
         }
     }
 
