@@ -118,8 +118,9 @@ class MainActivity : AppCompatActivity() {
             val city = cityName.text.toString()
             val country = countryName.text.toString()
             val methodIndex = binding.spinner.selectedItemPosition
+            val school = binding.spinner.selectedItemPosition
 
-            val apiUrl = "$API_BASE_URL$selectedDate?city=$city&country=$country&method=$methodIndex"
+            val apiUrl = "$API_BASE_URL$selectedDate?city=$city&country=$country?method=$methodIndex&school=$school"
 
             fetchPrayerTimings(apiUrl)
         }
@@ -180,7 +181,8 @@ class MainActivity : AppCompatActivity() {
         val spinner = binding.spinner
         val items = arrayOf(
             "Shia",
-            "Sunni"
+            "Sunni(Hanafi)",
+            "Sunni(Shafii)"
         )
 
         val adapter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, items)
@@ -253,9 +255,10 @@ class MainActivity : AppCompatActivity() {
                             if (addresses != null && addresses.isNotEmpty()) {
                                 val city = addresses[0].locality
                                 val country = addresses[0].countryName
+                                val coun = addresses[0].locale
 
                                 // Log the retrieved location data for debugging
-                                Log.d("LocationData", "City: $city, Country: $country")
+                                Log.d("LocationData", "City: $city, Country: $country , $coun")
 
                                 // Update your EditText widgets with the location data
                                 cityName.setText(city)
