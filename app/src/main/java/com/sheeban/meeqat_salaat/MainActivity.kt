@@ -122,7 +122,11 @@ class MainActivity : AppCompatActivity() {
 
             val apiUrl = "$API_BASE_URL$selectedDate?city=$city&country=$country?method=$methodIndex&school=$school"
 
-            fetchPrayerTimings(apiUrl)
+            if (city.isNotEmpty() || country.isNotEmpty()) {
+                fetchPrayerTimings(apiUrl)
+            }else {
+                Toast.makeText(this, "Please enter City or Country name", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -165,7 +169,7 @@ class MainActivity : AppCompatActivity() {
                 lottieLL.visibility = View.GONE
                 binding.lottieLoading.visibility = View.GONE
 
-                Toast.makeText(this, "Here are your timings for ${cityName.text}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Here are your timings for ${cityName.text} ${countryName.text}", Toast.LENGTH_LONG).show()
             },
             { error ->
                 // Handle any errors that occurred during the request
