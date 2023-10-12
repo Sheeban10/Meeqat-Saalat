@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
 
         consTimings.visibility = View.GONE
         val loading = findViewById<LottieAnimationView>(R.id.lottieLoading)
+        loading.visibility = View.GONE
 
 
 
@@ -121,6 +122,7 @@ class MainActivity : AppCompatActivity() {
             if (city.isNotEmpty() || country.isNotEmpty()) {
                 fetchPrayerTimings(apiUrl)
             }else {
+                loading.visibility = View.GONE
                 Toast.makeText(this, "Please enter City or Country name", Toast.LENGTH_SHORT).show()
             }
         }
