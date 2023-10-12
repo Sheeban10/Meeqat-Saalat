@@ -169,7 +169,9 @@ class MainActivity : AppCompatActivity() {
                 lottieLL.visibility = View.GONE
                 binding.lottieLoading.visibility = View.GONE
 
-                Toast.makeText(this, "Here are your timings for ${cityName.text} ${countryName.text}", Toast.LENGTH_LONG).show()
+                val methodName = binding.spinner.selectedItem.toString()
+
+                Toast.makeText(this, "Here are your timings for ${cityName.text} ${countryName.text} $methodName", Toast.LENGTH_LONG).show()
             },
             { error ->
                 // Handle any errors that occurred during the request
