@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var monthAr : TextView
 
     lateinit var consTimings : ConstraintLayout
-    lateinit var lottieLL : LinearLayout
 
     private val API_BASE_URL = "https://api.aladhan.com/v1/timingsByCity/"
 
@@ -90,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         monthAr = binding.tvMonthArabic
 
         consTimings = binding.constraintTimings
-        lottieLL = binding.llLottie
 
         defaultLocationShow()
 
@@ -105,14 +103,12 @@ class MainActivity : AppCompatActivity() {
 
 
         consTimings.visibility = View.GONE
-        lottieLL.visibility = View.GONE
         val loading = findViewById<LottieAnimationView>(R.id.lottieLoading)
 
 
 
         binding.btnGetTimings.setOnClickListener {
             consTimings.visibility = View.GONE
-            lottieLL.visibility = View.VISIBLE
             loading.visibility = View.VISIBLE
             val selectedDate = binding.btnCalender.text.toString()
             val city = cityName.text.toString()
@@ -166,7 +162,6 @@ class MainActivity : AppCompatActivity() {
                 month.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("en")
                 monthAr.text = response.getJSONObject("data").getJSONObject("date").getJSONObject("hijri").getJSONObject("month").getString("ar")
                 consTimings.visibility = View.VISIBLE
-                lottieLL.visibility = View.GONE
                 binding.lottieLoading.visibility = View.GONE
 
                 val methodName = binding.spinner.selectedItem.toString()

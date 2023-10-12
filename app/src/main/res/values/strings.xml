@@ -16,6 +16,6 @@
     <string name="firstthird">FirstThird</string>
     <string name="lastThird">LastThird</string>
     <string name="hijri">Hijri</string>
-    <string name="locationTv">Enter Location / Click on the icon to fetch automatically</string>
+    <string name="locationTv">Enter Location / \n Click on the icon to fetch automatically</string>
     <string name="islamic_month">Month</string>
 </resources>
